@@ -1,4 +1,5 @@
 *.retry
 hosts-*
-profiles/clatskine.yml
+profiles/west-prod.yml
+profiles/east-prod.yml
 profiles/test.yml

@@ -7,6 +7,6 @@ ListenPort = {{wg_port}}
 PublicKey = {{peer.wg_pubkey}}
 Endpoint = [{{peer.mesh_ip}}]:{{wg_port}}
 AllowedIPs = {{peer.internal_ip}}/32
-PersistentKeepalive = 25
+PersistentKeepalive = {{keepalive}}
 
 {% endfor %}

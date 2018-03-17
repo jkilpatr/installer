@@ -30,7 +30,11 @@
     immediate: true
     permanent: true
     port: "{{wg_port}}/udp"
+    zone: "{{item}}"
   become: true
+  with_items:
+    - public
+    - external
 
 - name: Open Internal port TCP
   firewalld:
@@ -38,16 +42,23 @@
     immediate: true
     permanent: true
     port: "{{wg_port}}/tcp"
+    zone: "{{item}}"
   become: true
+  with_items:
+    - public
+    - external
 
 - name: Open Gateway port UDP
   firewalld:
     state: enabled
     immediate: true
     permanent: true
-    port: "{{item.port}}/udp"
+    port: "{{item[0].port}}/udp"
+    zone: "{{item[1]}}"
   become: true
-  with_items: "{{gateways}}"
+  with_nested:
+    - "{{gateways}}"
+    - ['public', 'external']
 
 - name: Open Gateway port TCP
   firewalld:

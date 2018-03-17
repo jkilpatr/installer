@@ -10,6 +10,16 @@
 - shell: 'firewall-cmd --direct --permanent --add-rule ipv4 filter FORWARD 0 -i {{external_nic}} -o {{internal_nic}} -m state --state RELATED,ESTABLISHED -j ACCEPT'
   become: true
 
+- name: Setup Natting rules v6
+  shell: 'firewall-cmd --direct --permanent --add-rule ipv6 nat POSTROUTING 0 -o {{external_nic}} -j MASQUERADE'
+  become: true
+
+- shell: 'firewall-cmd --direct --permanent --add-rule ipv6 filter FORWARD 0 -i {{internal_nic}} -o {{external_nic}} -j ACCEPT'
+  become: true
+
+- shell: 'firewall-cmd --direct --permanent --add-rule ipv6 filter FORWARD 0 -i {{external_nic}} -o {{internal_nic}} -m state --state RELATED,ESTABLISHED -j ACCEPT'
+  become: true
+
 - shell: 'firewall-cmd --reload'
   become: true
 
